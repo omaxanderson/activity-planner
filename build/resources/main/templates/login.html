@@ -39,10 +39,11 @@
                             <a href="/registration">Sign Up</a>
                         </div>
 
+                        <p class='text-danger mt-2' th:if="${param.error}">Bad login or password.</p>
+                        <p class='text-success' th:if="${param.logout}">Log out successful.</p>
+
                     </form>
 
-                    <div class='text-danger mt-2' th:if="${param.error}">Bad login or password.</div>
-                    <div class='text-success' th:if="${param.logout}">Log out successful.</div>
 
                 </div>
 
