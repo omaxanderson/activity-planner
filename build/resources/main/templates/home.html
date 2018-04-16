@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>AP - Home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!--    Bootstrap CDNs    -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="col-sm-6 offset-sm-3">
+            <h1>Activity planner body</h1>
+            <p>Hello, <span th:text="${
+        T(org.springframework.security.core.context.SecurityContextHolder)
+      .context.authentication.principal.username}"></span>!</p>
+            <form action="/logout" method="post">
+                <div class="form-group">
+                    <input class='form-control' type="hidden"
+                           th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button class='btn btn-primary' type="submit" value="Log Out">Log Out</button>
+
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
