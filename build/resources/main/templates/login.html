@@ -36,11 +36,13 @@
                                -->
                         <button class="btn btn-primary" type="submit" value="Login">Log In</button>
                         <div class="row">
-                            <a href="/registration">Sign Up</a>
+                            <a href="/register">Sign Up</a>
                         </div>
 
-                        <p class='text-danger mt-2' th:if="${param.error}">Bad login or password.</p>
-                        <p class='text-success' th:if="${param.logout}">Log out successful.</p>
+                        <div class="form-group">
+                            <p class='text-danger mt-2' th:if="${param.error}">Bad login or password.</p>
+                            <p class='text-success' th:if="${param.logout}">Log out successful.</p>
+                        </div>
 
                     </form>
 
