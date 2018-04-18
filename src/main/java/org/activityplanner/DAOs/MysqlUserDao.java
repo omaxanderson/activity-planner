@@ -12,4 +12,6 @@ public interface MysqlUserDao extends CrudRepository<User, Long> {
 
     List<User> findByFirstName(String firstName);
 
+
+
 }
