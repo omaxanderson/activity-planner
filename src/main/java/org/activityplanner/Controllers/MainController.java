@@ -1,5 +1,8 @@
 package org.activityplanner.Controllers;
 
+import org.activityplanner.DAOs.MysqlUserDao;
+import org.activityplanner.Entities.User;
+import org.activityplanner.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +23,9 @@ public class MainController {
     DataSource dataSource;
 
     @Autowired
+    private MysqlUserDao mysqlUserDao;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
@@ -28,12 +34,20 @@ public class MainController {
     }
 
     @GetMapping("/register")
-    public String register() { return "registration"; }
+    public String register(Model model) {
+        model.addAttribute("user", new User());
+        return "registration";
+    }
 
     @PostMapping("/register")
     public String registerNewUser(@RequestParam String username, @RequestParam String password) {
-        JdbcTemplate template = new JdbcTemplate();
-        template.setDataSource(dataSource);
+//        JdbcTemplate template = new JdbcTemplate();
+//        template.setDataSource(dataSource);
+        System.out.println(username + ", " + password);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        mysqlUserDao.save(user);
 
         System.out.println("username: " + username);
         System.out.println("pass: " + password);
@@ -41,16 +55,4 @@ public class MainController {
         return "registration";
     }
 
-    @GetMapping("/new")
-    public String addUser(@RequestParam String username, @RequestParam String password) {
-        JdbcTemplate template = new JdbcTemplate();
-        template.setDataSource(dataSource);
-        template.update("INSERT INTO users(username, password) VALUES ('"
-                + username + "', '" + passwordEncoder.encode(password) + "')");
-        System.out.println("Password: " + password);
-        System.out.println(passwordEncoder.encode("password"));
-        System.out.println(passwordEncoder.encode(password));
-        System.out.println("Database updated");
-        return "home";
-    }
 }

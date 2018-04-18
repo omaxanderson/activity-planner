@@ -1,6 +1,8 @@
 package org.activityplanner.Config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,7 +21,15 @@ import javax.sql.DataSource;
 //public class WebSecurityConfig implements WebMvcConfigurer {
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    DataSource dataSource;
 
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("SELECT username, password, enabled FROM user WHERE username=?")
+                .authoritiesByUsernameQuery("SELECT username, authority FROM authorities WHERE username=?");
+    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -30,11 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .permitAll()
-        ;
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .permitAll();
 
     }
 
+    // Here is where the source of the user is set for the application.
+    // Currently it's a MySql db.
     @Bean
     public UserDetailsService jdbcUserDetailsService(DataSource dataSource) {
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager();

@@ -2,14 +2,14 @@ package org.activityplanner.DAOs;
 
 import org.activityplanner.Entities.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 // auto implemented by Spring
+@Repository
 public interface MysqlUserDao extends CrudRepository<User, Long> {
 
-    public String getUsername();
-    public String getPassword();
-
-    public void setUsername(String username);
-    public void setPassword(String password);
+    List<User> findByFirstName(String firstName);
 
 }

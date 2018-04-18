@@ -13,10 +13,23 @@ public class User {
     private String username;
     private String password;
 
+    private String firstName, lastName;
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.firstName = "";
+        this.lastName = "";
     }
+
+    public User(String username, String password, String lastName, String firstName) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public User() {}
 
     public String getUsername() {
         return username;
