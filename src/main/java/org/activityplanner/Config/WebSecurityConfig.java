@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
@@ -37,13 +38,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/register")
             .permitAll()
             .anyRequest().authenticated()
-            .and()
+                .and()
             .formLogin()
             .loginPage("/login")
             .usernameParameter("username")
             .passwordParameter("password")
-            .permitAll();
+            .permitAll()
+                .and()
+            .logout()
+            .logoutSuccessUrl("/login?logout");
     }
+
+
 
     // Here is where the source of the user is set for the application.
     // Currently it's a MySql db.
